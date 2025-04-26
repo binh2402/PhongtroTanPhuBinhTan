@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Đăng tin cho thuê phòng</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f0f2f5;
+      margin: 20px;
+      padding: 0;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    form {
+      max-width: 600px;
+      margin: 20px auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    input, textarea {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    button {
+      margin-top: 15px;
+      width: 100%;
+      background: #4CAF50;
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background: #45a049;
+    }
+    .posts {
+      max-width: 800px;
+      margin: 30px auto;
+    }
+    .post {
+      background: white;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .post img {
+      max-width: 100%;
+      margin-top: 10px;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Đăng tin cho thuê phòng</h1>
+
+<form id="postForm">
+  <input type="text" id="title" placeholder="Tiêu đề phòng" required>
+  <textarea id="description" rows="4" placeholder="Mô tả chi tiết..." required></textarea>
+  <input type="file" id="image" accept="image/*" required>
+  <button type="submit">Đăng bài</button>
+</form>
+
+<div class="posts" id="posts">
+  <!-- Các bài đăng sẽ hiện ở đây -->
+</div>
+
+<script>
+  const form = document.getElementById('postForm');
+  const posts = document.getElementById('posts');
+
+  form.addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const title = document.getElementById('title').value.trim();
+    const description = document.getElementById('description').value.trim();
+    const imageFile = document.getElementById('image').files[0];
+
+    if (title && description && imageFile) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const post = document.createElement('div');
+        post.className = 'post';
+        post.innerHTML = `
+          <h2>${title}</h2>
+          <p>${description}</p>
+          <img src="${e.target.result}" alt="Hình ảnh phòng">
+        `;
+        posts.prepend(post); // thêm bài mới lên đầu
+      };
+      reader.readAsDataURL(imageFile);
+
+      form.reset();
+    }
+  });
+</script>
+
+</body>
+</html>
